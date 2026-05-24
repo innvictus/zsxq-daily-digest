@@ -1,0 +1,31 @@
+ai:
+  claude:
+    api_key: "YOUR_API_KEY_HERE"
+    base_url: ''
+    model: claude-sonnet-4-6
+  deepseek:
+    api_key: "YOUR_API_KEY_HERE"
+    base_url: https://api.deepseek.com
+    model: deepseek-chat
+  openai:
+    api_key: "YOUR_API_KEY_HERE"
+    base_url: ''
+    model: gpt-4o
+  provider: deepseek
+notify:
+  enabled: false
+  smtp_host: "smtp.qq.com"
+  smtp_port: 465
+  sender_email: "your_qq_email@qq.com"
+  sender_password: "your_qq_auth_code"
+  recipient_email: "your_qq_email@qq.com"
+
+output:
+  data_dir: data
+  dir: output
+zsxq:
+  access_token: "YOUR_ZSXQ_TOKEN_HERE"
+  max_retries: 3
+  request_interval: 2
+  user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML,
+    like Gecko) Chrome/131.0.0.0 Safari/537.36
