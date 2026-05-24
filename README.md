@@ -73,7 +73,9 @@ python main.py report --date 2026-05-23
 python main.py search "关键词"
 ```
 
-### 4. macOS 定时任务
+### 4. 定时任务
+
+**macOS：**
 
 ```bash
 cp com.zsxq.daily.plist ~/Library/LaunchAgents/
@@ -81,7 +83,35 @@ launchctl load ~/Library/LaunchAgents/com.zsxq.daily.plist
 # 每天凌晨 1:00 自动执行
 ```
 
-## Docker 部署（极空间 / NAS）
+**Windows：**
+
+打开 **任务计划程序（Task Scheduler）** → 创建基本任务：
+
+| 设置 | 值 |
+|------|-----|
+| 名称 | ZSXQ Daily Digest |
+| 触发器 | 每天，凌晨 1:00 |
+| 操作 | 启动程序 |
+| 程序 | `python`（或 `C:\Users\你的用户名\AppData\Local\Programs\Python\Python311\python.exe`） |
+| 参数 | `main.py run` |
+| 起始于 | `D:\zsxq-daily-digest`（你克隆的目录） |
+
+也可以用命令行创建：
+
+```powershell
+# PowerShell 管理员模式，替换路径为你的实际路径
+$action = New-ScheduledTaskAction -Execute "python" -Argument "main.py run" -WorkingDirectory "D:\zsxq-daily-digest"
+$trigger = New-ScheduledTaskTrigger -Daily -At "01:00"
+Register-ScheduledTask -TaskName "ZSXQ Daily Digest" -Action $action -Trigger $trigger -Description "知识星球日报"
+```
+
+## Docker 部署（极空间 / NAS / Windows）
+
+### 前置条件
+
+- **极空间/NAS**：Docker 已内置
+- **Windows**：先安装 [Docker Desktop](https://www.docker.com/products/docker-desktop/)，安装后重启电脑
+- **macOS**：Docker Desktop 或 OrbStack
 
 ### 拉取代码
 
@@ -168,7 +198,9 @@ notify:
 1. **不要上传 config.yaml 和 groups.yaml**（含 Token），已在 `.gitignore` 中排除
 2. 知识星球 API 有频率限制，抓取间隔默认 2-3 秒，不要调太激进
 3. 第一次部署建议 `RUN_ON_START=true` 测试是否正常
-4. Docker 基础镜像 `python:3.11-slim` 在国内可能拉取慢，在极空间 Docker 设置里配置镜像加速器
+4. Docker 基础镜像 `python:3.11-slim` 在国内可能拉取慢，需配置镜像加速器：
+   - 极空间：Docker 设置 → 镜像源 → 添加阿里云/中科大镜像
+   - Windows Docker Desktop：Settings → Docker Engine → 添加 `registry-mirrors`
 5. 生成的日报仅供参考，不构成投资建议
 6. MP3 录音文件默认忽略，不在日报中展示
 
