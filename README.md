@@ -132,6 +132,14 @@ python main.py run
 
 勾选"不管用户是否登录都要运行"，这样锁屏也会执行。
 
+也可以用一条命令创建（**PowerShell 管理员模式**，注意替换路径）：
+
+```powershell
+$action = New-ScheduledTaskAction -Execute "python" -Argument "main.py run" -WorkingDirectory "D:\zsxq-daily-digest"
+$trigger = New-ScheduledTaskTrigger -Daily -At "01:00"
+Register-ScheduledTask -TaskName "ZSXQ Daily Digest" -Action $action -Trigger $trigger -Description "知识星球日报"
+```
+
 > 也可以用 **run.bat** 双击一键运行（测试用，不能定时）。
 
 #### macOS 本地部署
