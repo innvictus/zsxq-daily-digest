@@ -55,35 +55,69 @@ groups:
     enabled: true
 ```
 
-### 3. 本地运行
+### 3. 各平台部署
 
-```bash
+#### Windows 本地部署
+
+**步骤 1：安装 Python**
+
+下载安装 Python 3.11+：https://www.python.org/downloads/
+
+安装时 **务必勾选** `Add Python to PATH`，然后一路下一步。
+
+验证安装：
+
+```powershell
+python --version
+# 应输出 Python 3.11.x 或更高
+```
+
+**步骤 2：安装 Git**
+
+下载安装 Git：https://git-scm.com/downloads/win
+
+一路默认选项即可。
+
+**步骤 3：拉取代码**
+
+```powershell
+# 打开 PowerShell，进入你想要放项目的目录
+cd D:\
+git clone https://github.com/innvictus/zsxq-daily-digest.git
+cd zsxq-daily-digest
+```
+
+**步骤 4：配置文件**
+
+```powershell
+# 复制配置模板
+copy config\config.example.yaml config\config.yaml
+```
+
+然后用记事本编辑 `config\config.yaml`，填入 Token 和 API Key。再创建 `config\groups.yaml`：
+
+```yaml
+groups:
+  - group_id: "你的星球ID"
+    name: "星球名称"
+    enabled: true
+```
+
+**步骤 5：安装依赖**
+
+```powershell
 pip install -r requirements.txt
+```
 
-# 一键抓取 + 生成日报
+**步骤 6：测试运行**
+
+```powershell
 python main.py run
-
-# 只抓取
-python main.py fetch
-
-# 只生成日报（用已有数据，不重新爬）
-python main.py report --date 2026-05-23
-
-# 搜索帖子
-python main.py search "关键词"
 ```
 
-### 4. 定时任务
+如果正常生成了 `output\日期.html`，说明配置没问题。
 
-**macOS：**
-
-```bash
-cp com.zsxq.daily.plist ~/Library/LaunchAgents/
-launchctl load ~/Library/LaunchAgents/com.zsxq.daily.plist
-# 每天凌晨 1:00 自动执行
-```
-
-**Windows：**
+**步骤 7：设置每天自动执行**
 
 打开 **任务计划程序（Task Scheduler）** → 创建基本任务：
 
@@ -92,17 +126,61 @@ launchctl load ~/Library/LaunchAgents/com.zsxq.daily.plist
 | 名称 | ZSXQ Daily Digest |
 | 触发器 | 每天，凌晨 1:00 |
 | 操作 | 启动程序 |
-| 程序 | `python`（或 `C:\Users\你的用户名\AppData\Local\Programs\Python\Python311\python.exe`） |
+| 程序/脚本 | `python` |
 | 参数 | `main.py run` |
-| 起始于 | `D:\zsxq-daily-digest`（你克隆的目录） |
+| 起始于 | `D:\zsxq-daily-digest`（你克隆的路径） |
 
-也可以用命令行创建：
+勾选"不管用户是否登录都要运行"，这样锁屏也会执行。
 
-```powershell
-# PowerShell 管理员模式，替换路径为你的实际路径
-$action = New-ScheduledTaskAction -Execute "python" -Argument "main.py run" -WorkingDirectory "D:\zsxq-daily-digest"
-$trigger = New-ScheduledTaskTrigger -Daily -At "01:00"
-Register-ScheduledTask -TaskName "ZSXQ Daily Digest" -Action $action -Trigger $trigger -Description "知识星球日报"
+> 也可以用 **run.bat** 双击一键运行（测试用，不能定时）。
+
+#### macOS 本地部署
+
+```bash
+# 安装 Python 3.11+
+brew install python@3.11
+
+# 拉代码
+git clone https://github.com/innvictus/zsxq-daily-digest.git
+cd zsxq-daily-digest
+
+# 配置
+cp config/config.example.yaml config/config.yaml
+# 编辑 config.yaml 和 config/groups.yaml
+
+# 安装依赖
+pip3 install -r requirements.txt
+
+# 测试
+python3 main.py run
+
+# 设置每天 1:00 自动执行
+cp com.zsxq.daily.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.zsxq.daily.plist
+```
+
+#### Linux 本地部署
+
+```bash
+git clone https://github.com/innvictus/zsxq-daily-digest.git
+cd zsxq-daily-digest
+cp config/config.example.yaml config/config.yaml
+# 编辑配置文件
+pip install -r requirements.txt
+python main.py run
+
+# 定时任务
+crontab -e
+# 添加: 0 1 * * * cd /path/to/zsxq-daily-digest && python main.py run
+```
+
+### 4. 命令行参考
+
+```bash
+python main.py run              # 一键抓取 + 生成日报
+python main.py fetch            # 只抓取
+python main.py report --date 2026-05-23  # 只生成日报
+python main.py search "关键词"   # 搜索帖子
 ```
 
 ## Docker 部署（极空间 / NAS / Windows）
