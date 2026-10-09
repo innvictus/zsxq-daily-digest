@@ -1,0 +1,68 @@
+{
+  "as_of": "2026-10-09",
+  "version": "v2.1",
+  "unit": "人民币亿元",
+  "market_cap_basis": "沿用原汇总2026-09-30至10-08历史口径；先导基电为估算；未核定2026-10-09收盘市值",
+  "companies": [
+    {
+      "name": "杰华特",
+      "code": "688141",
+      "market_cap": 411,
+      "target": 1500,
+      "direction": 30,
+      "trend": 34,
+      "intensity": 25,
+      "intuition": 4,
+      "alternative_target": 1150,
+      "broker_count": 5
+    },
+    {
+      "name": "富信科技",
+      "code": "688662",
+      "market_cap": 128.6,
+      "target": 1000,
+      "direction": 20,
+      "trend": 30,
+      "intensity": 25,
+      "intuition": -6,
+      "alternative_target": 500,
+      "broker_count": 2
+    },
+    {
+      "name": "先导基电",
+      "code": "600641",
+      "market_cap": 450,
+      "target": 1300,
+      "direction": 30,
+      "trend": 33,
+      "intensity": 25,
+      "intuition": 4,
+      "alternative_target": 1000,
+      "broker_count": 4
+    },
+    {
+      "name": "华丰科技",
+      "code": "688629",
+      "market_cap": 456,
+      "target": 1600,
+      "direction": 30,
+      "trend": 32,
+      "intensity": 25,
+      "intuition": -2,
+      "alternative_target": 1200,
+      "broker_count": 5
+    },
+    {
+      "name": "光智科技",
+      "code": "300489",
+      "market_cap": 387,
+      "target": 1000,
+      "direction": 30,
+      "trend": 35,
+      "intensity": 23,
+      "intuition": 2,
+      "alternative_target": 900,
+      "broker_count": 5
+    }
+  ]
+}
